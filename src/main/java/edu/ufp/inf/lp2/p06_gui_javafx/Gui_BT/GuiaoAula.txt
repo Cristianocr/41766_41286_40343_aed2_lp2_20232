@@ -1,0 +1,43 @@
+Guião da Aula - JavaFX - Exercicio Brigada de Trânsito
+
+Elementos disponibilizados:
+    - Projecto base, com interface gráfica implementada (bt.fxml)
+    - Classes Driver, Vehicle e TransitPolice do package _10_examples.transitbrigade (alterações quanto ao Serializable e nos métodos set/getCylinders)
+
+Tarefas:
+    - Analisar elementos gráficos disponibilizados no ficheiro bt.fxml, recorrendo ao SceneBuilder (particular atenção aos handlers)
+    - Analisar os cabeçalhos dos métodos disponibilizados na classe BTController
+    - Implementar o código necessário para completar as seguintes tarefas:
+
+        Menu/Tab Vehicles:
+        - Leitura do ficheiro data.txt e apresentação do conteúdo dos veículos na tabela vehiclesTable
+		- Métodos a implementar: handleReadFileAction(), readVehiclesFromFile() e openBufferedReader()
+        - Leitura de ficheiro data.bin e apresentação do conteúdo dos veículos na table vehiclesTable
+		- Métodos a implementar: handleReadBinFileAction() e readFromBinFile()
+        - Armazenamento dos dados em formato textual no ficheiro data.txt
+		- Métodos a implementar: handleSaveFileAction(), saveVehiclesToFile() e openPrintWriter()
+        - Armazenamento dos dados em formato binário no ficheiro data.bin
+		- Métodos a implementar: handleSaveBinFileAction() e saveToBinFile()
+	- Adição e edição de dados dos veículos na tabela vehiclesTable
+		- Métodos a implementar: handleAddVehicleAction() e handleEditVehicleAction()
+	- Acção associado ao botão Exit
+		- Métodos a implementar: handleExitAction()
+
+        Tab Penalties:
+        - Apresentação e selecção dos dados dos veiculos na comboBox vehicleComboBox
+		- Métodos a implementar: addVehiclesToComboBox() e handleSelectVehicleAction()
+
+TPC:
+    - Implementar o código necessário para completar as seguintes tarefas:
+
+        Menu/Tab Drivers:
+            - Criação de tabela driversTable na tab Drivers, referente aos dados dos condutores
+            - Leitura do ficheiro data_drivers.txt e apresentação do conteúdo dos condutores na tabela driversTable
+            - Leitura de ficheiro data_drivers.bin e apresentação do conteúdo dos condutores na table driversTable
+            - Armazenamento dos dados em formato textual no ficheiro data_drivers.txt
+            - Armazenamento dos dados em formato binário no ficheiro data_drivers.bin
+	    - Adição e edição de dados dos condutores na tabela driversTable
+	    - Acção associado ao botão About, do menu Help
+
+        Tab Penalties:
+            - Apresentação e selecção dos dados dos condutores na comboBox driversComboBox

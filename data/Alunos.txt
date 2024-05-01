@@ -1,0 +1,3 @@
+Nuno Alexandre, 1111, 15.5
+Pedro Lucas, 2222, 18.5
+Antonio Miguel, 3333, 14.5

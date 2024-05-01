@@ -1,0 +1,46 @@
+/* By switching to CSS over inline code styles, we separate the design from the content. */
+
+/* Use the .root style to apply a background image to the root node of the Scene instance. */
+.root {
+    -fx-background-image: url("background.jpg");
+}
+
+/* Use the .label style class to define the styles of all labels (indistinctly) in the form. */
+.label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+/* Define the style properties for the Text field with id = welcome-text */
+#welcome-text {
+    -fx-font-size: 32px;
+    -fx-font-family: "Arial Black";
+    -fx-fill: #818181;
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+}
+
+
+/* Define the style properties for the Text field with id = actiontarget-text */
+#actiontarget-text {
+    -fx-fill: FIREBRICK;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+
+/* Define style for all buttons indistinctly (as defined below, will change look when user hovers mouse over it) */
+.button {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+
+/* Use the hover pseudo-class to change buttons look when users hover the mouse over the button */
+.button:hover {
+    -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+}

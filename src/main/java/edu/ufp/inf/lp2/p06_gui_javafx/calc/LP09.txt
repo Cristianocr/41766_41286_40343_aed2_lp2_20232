@@ -1,0 +1,21 @@
+--------------------------------Guia para Aula 9--------------------------------
+
+--------------------------------Aula-------------------------------
+
+Calculator[componente lógica e componente gráfica]
+
+Componente lógica:
+- implementar os métodos de operações: sum, subtract, multiply, divide;
+- implementar os métodos setValueInMem e getValueInMem;
+- implementar o método resetCalc para fazer reset à calculadora.
+
+Componente gráfica:
+- perceber como os diferentes elementos gráficos estão a ser criados, 
+como se correlacionam, e como são inseridos no seu layout.
+- implementar os listeners dos diferentes botões[Numeric, Equals, Clear, Dot]
+
+Ter em atenção:
+A variável displayValue está binded ao elemento gráfico que mostra os valores da calculadora.
+A variável valueInMemory deve guardar os valores em memória para cálculos posteriores.
+O booleano closedOperation deve guardar quando uma pessoa encerra uma operação.
+A variável nDecimals guarda o número de casas decimais do número atualmente a ser inserido.
