@@ -3,6 +3,7 @@ package edu.ufp.inf.PROJETO_AED2LP2_2024;
 import java.util.Objects;
 
 public class Autor {
+    private String id;
     private String name;
     private String shortName;
     private String scientificName;
@@ -12,7 +13,8 @@ public class Autor {
     private String googleScholarId;
     private String scopusAuthorId;
 
-    public Autor(String name, String shortName, String scientificName, String affiliation, String orcid, String scienceId, String googleScholarId, String scopusAuthorId) {
+    public Autor(String id,String name, String shortName, String scientificName, String affiliation, String orcid, String scienceId, String googleScholarId, String scopusAuthorId) {
+        this.id = id;
         this.name = name;
         this.shortName = shortName;
         this.scientificName = scientificName;
@@ -21,6 +23,14 @@ public class Autor {
         this.scienceId = scienceId;
         this.googleScholarId = googleScholarId;
         this.scopusAuthorId = scopusAuthorId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

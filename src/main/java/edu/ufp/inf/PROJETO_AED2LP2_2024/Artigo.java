@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Artigo {
+    private String id;
     private String titulo;
     private ArrayList<String> palavrasChave;
     private String abstracto;
@@ -25,6 +26,14 @@ public class Artigo {
         this.numVisualizacoes = numVisualizacoes;
         this.autores = new ArrayList<>();
         this.referencias = new ArrayList<>();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitulo() {
