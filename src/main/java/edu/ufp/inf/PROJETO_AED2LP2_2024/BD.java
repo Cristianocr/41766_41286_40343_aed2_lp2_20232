@@ -20,6 +20,7 @@ public class BD {
     // Métodos para adicionar, remover e pesquisar artigos
     public void adicionarArtigo(Artigo artigo) {
         artigos.put(artigo.getId(), artigo);
+        grafoArtigos.adicionarArtigo(artigo);
     }
 
     public void removerArtigo(int id) {
@@ -33,6 +34,7 @@ public class BD {
     // Métodos para adicionar, remover e pesquisar autores
     public void adicionarAutor(Autor autor) {
         autores.put(autor.getOrcid(), autor);
+        grafoAutores.adicionarAutor(autor);
     }
 
     public void removerAutor(String orcid) {

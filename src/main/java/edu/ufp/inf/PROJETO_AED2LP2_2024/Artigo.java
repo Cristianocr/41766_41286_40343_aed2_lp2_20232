@@ -17,9 +17,8 @@ public class Artigo {
     private int numVisualizacoes;
     private int numlikes;
     private ArrayList<Autor> autores;
-    private ArrayList<Artigo> citacoes;
 
-    public Artigo(String titulo, ArrayList<String> palavrasChave, String abstracto, String tipoPublicacao, int ano, int numDownloads, int numVisualizacoes, int numlikes, ArrayList<Autor> autores, ArrayList<Artigo> citacoes) {
+    public Artigo(String titulo, ArrayList<String> palavrasChave, String abstracto, String tipoPublicacao, int ano, int numDownloads, int numVisualizacoes, int numlikes, ArrayList<Autor> autores) {
         this.id = ++lastId;
         this.titulo = titulo;
         this.palavrasChave = palavrasChave;
@@ -30,7 +29,6 @@ public class Artigo {
         this.numVisualizacoes = numVisualizacoes;
         this.numlikes = numlikes;
         this.autores = autores;
-        this.citacoes = citacoes;
     }
 
     public Integer getId() {
@@ -129,37 +127,17 @@ public class Artigo {
         this.autores = autores;
     }
 
-    public ArrayList<Artigo> getCitacoes() {
-        return citacoes;
-    }
-
-    public void addCitacao(Artigo artigo){
-        if(!citacoes.contains(artigo)){
-            this.citacoes.add(artigo);
-        }
-    }
-
-    public void removeCitacao(Artigo artigo) {
-        if(citacoes.contains(artigo)){
-            this.citacoes.remove(artigo);
-        }
-    }
-
-    public void setCitacoes(ArrayList<Artigo> citacoes) {
-        this.citacoes = citacoes;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Artigo artigo = (Artigo) o;
-        return ano == artigo.ano && numDownloads == artigo.numDownloads && numVisualizacoes == artigo.numVisualizacoes && numlikes == artigo.numlikes && Objects.equals(id, artigo.id) && Objects.equals(titulo, artigo.titulo) && Objects.equals(palavrasChave, artigo.palavrasChave) && Objects.equals(abstracto, artigo.abstracto) && Objects.equals(tipoPublicacao, artigo.tipoPublicacao) && Objects.equals(autores, artigo.autores) && Objects.equals(citacoes, artigo.citacoes);
+        return ano == artigo.ano && numDownloads == artigo.numDownloads && numVisualizacoes == artigo.numVisualizacoes && numlikes == artigo.numlikes && Objects.equals(id, artigo.id) && Objects.equals(titulo, artigo.titulo) && Objects.equals(palavrasChave, artigo.palavrasChave) && Objects.equals(abstracto, artigo.abstracto) && Objects.equals(tipoPublicacao, artigo.tipoPublicacao) && Objects.equals(autores, artigo.autores);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, titulo, palavrasChave, abstracto, tipoPublicacao, ano, numDownloads, numVisualizacoes, numlikes, autores, citacoes);
+        return Objects.hash(id, titulo, palavrasChave, abstracto, tipoPublicacao, ano, numDownloads, numVisualizacoes, numlikes, autores);
     }
 
     @Override
@@ -175,7 +153,6 @@ public class Artigo {
                 ", numVisualizacoes=" + numVisualizacoes +
                 ", numlikes=" + numlikes +
                 ", autores=" + autores +
-                ", citacoes=" + citacoes +
                 '}';
     }
 }

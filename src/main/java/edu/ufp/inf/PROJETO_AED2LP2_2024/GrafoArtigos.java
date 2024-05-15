@@ -1,40 +1,36 @@
 package edu.ufp.inf.PROJETO_AED2LP2_2024;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class GrafoArtigos {
-    private Map<Artigo, Set<Artigo>> citacoes;
+    private Map<Artigo, List<Artigo>> adjList;
 
     public GrafoArtigos() {
-        this.citacoes = new HashMap<>();
+        this.adjList = new HashMap<>();
     }
 
     public void adicionarArtigo(Artigo artigo) {
-        if (!citacoes.containsKey(artigo)) {
-            citacoes.put(artigo, new HashSet<>());
+        this.adjList.putIfAbsent(artigo, new ArrayList<>());
+    }
+
+    public void adicionarCitacao(Artigo from, Artigo to) {
+        if (!this.adjList.containsKey(from) || !this.adjList.containsKey(to)) {
+            throw new IllegalArgumentException("Artigo não encontrado no grafo");
         }
+        this.adjList.get(from).add(to);
     }
 
-    public void adicionarCitacao(Artigo citante, Artigo citado) {
-        adicionarArtigo(citante);
-        adicionarArtigo(citado);
-        citacoes.get(citante).add(citado);
+    public List<Artigo> obterCitacoes(Artigo artigo) {
+        return this.adjList.getOrDefault(artigo, new ArrayList<>());
     }
 
-    public Set<Artigo> getArtigosCitados(Artigo artigo) {
-        return citacoes.getOrDefault(artigo, new HashSet<>());
-    }
-
-    public Set<Artigo> getArtigosCitantes(Artigo artigo) {
-        Set<Artigo> citantes = new HashSet<>();
-        for (Map.Entry<Artigo, Set<Artigo>> entry : citacoes.entrySet()) {
-            if (entry.getValue().contains(artigo)) {
-                citantes.add(entry.getKey());
+    public void imprimirGrafo() {
+        for (Map.Entry<Artigo, List<Artigo>> entry : adjList.entrySet()) {
+            System.out.print(entry.getKey().getTitulo() + "," + entry.getKey().getId() + " -> ");
+            for (Artigo cited : entry.getValue()) {
+                System.out.print(cited.getTitulo() +  "," + entry.getKey().getId() + ", ");
             }
+            System.out.println();
         }
-        return citantes;
     }
 }
