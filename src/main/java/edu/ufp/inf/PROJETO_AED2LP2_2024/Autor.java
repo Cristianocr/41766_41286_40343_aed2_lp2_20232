@@ -1,84 +1,63 @@
 package edu.ufp.inf.PROJETO_AED2LP2_2024;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Autor {
-    private String id;
-    private String name;
-    private String shortName;
-    private String scientificName;
-    private String affiliation;
+    private String nome;
+    private String nomeCientifico;
+    private String filiacao;
     private String orcid;
-    private String scienceId;
+    private String cienciaId;
     private String googleScholarId;
     private String scopusAuthorId;
+    private ArrayList<Artigo> artigos;
 
-    public Autor(String id,String name, String shortName, String scientificName, String affiliation, String orcid, String scienceId, String googleScholarId, String scopusAuthorId) {
-        this.id = id;
-        this.name = name;
-        this.shortName = shortName;
-        this.scientificName = scientificName;
-        this.affiliation = affiliation;
-        this.orcid = orcid;
-        this.scienceId = scienceId;
+    public Autor(String nomeCientifico, String filiacao, String nome, String cienciaId, String googleScholarId, String scopusAuthorId, ArrayList<Artigo> artigos) {
+        this.nomeCientifico = nomeCientifico;
+        this.filiacao = filiacao;
+        this.nome = nome;
+        this.cienciaId = cienciaId;
         this.googleScholarId = googleScholarId;
         this.scopusAuthorId = scopusAuthorId;
+        this.artigos = artigos;
+        this.orcid = ORCIDGenerator.generateUniqueORCID(nome, nomeCientifico);
     }
 
-    public String getId() {
-        return id;
+    public String getNome() {
+        return nome;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getName() {
-        return name;
+    public String getNomeCientifico() {
+        return nomeCientifico;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNomeCientifico(String nomeCientifico) {
+        this.nomeCientifico = nomeCientifico;
     }
 
-    public String getShortName() {
-        return shortName;
+    public String getFiliacao() {
+        return filiacao;
     }
 
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
-
-    public String getScientificName() {
-        return scientificName;
-    }
-
-    public void setScientificName(String scientificName) {
-        this.scientificName = scientificName;
-    }
-
-    public String getAffiliation() {
-        return affiliation;
-    }
-
-    public void setAffiliation(String affiliation) {
-        this.affiliation = affiliation;
+    public void setFiliacao(String filiacao) {
+        this.filiacao = filiacao;
     }
 
     public String getOrcid() {
         return orcid;
     }
 
-    public void setOrcid(String orcid) {
-        this.orcid = orcid;
+    public String getCienciaId() {
+        return cienciaId;
     }
 
-    public String getScienceId() {
-        return scienceId;
-    }
-
-    public void setScienceId(String scienceId) {
-        this.scienceId = scienceId;
+    public void setCienciaId(String cienciaId) {
+        this.cienciaId = cienciaId;
     }
 
     public String getGoogleScholarId() {
@@ -97,30 +76,51 @@ public class Autor {
         this.scopusAuthorId = scopusAuthorId;
     }
 
+    public ArrayList<Artigo> getArtigos() {
+        return artigos;
+    }
+
+    public void setArtigos(ArrayList<Artigo> artigos) {
+        this.artigos = artigos;
+    }
+
+    public void addCitacao(Artigo artigo){
+        if(!artigos.contains(artigo)){
+            this.artigos.add(artigo);
+        }
+    }
+
+    public void removeCitacao(Artigo artigo) {
+        if(artigos.contains(artigo)){
+            this.artigos.remove(artigo);
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Autor autor = (Autor) o;
-        return Objects.equals(name, autor.name) && Objects.equals(shortName, autor.shortName) && Objects.equals(scientificName, autor.scientificName) && Objects.equals(affiliation, autor.affiliation) && Objects.equals(orcid, autor.orcid) && Objects.equals(scienceId, autor.scienceId) && Objects.equals(googleScholarId, autor.googleScholarId) && Objects.equals(scopusAuthorId, autor.scopusAuthorId);
+        return Objects.equals(nome, autor.nome) && Objects.equals(nomeCientifico, autor.nomeCientifico) && Objects.equals(filiacao, autor.filiacao) && Objects.equals(orcid, autor.orcid) && Objects.equals(cienciaId, autor.cienciaId) && Objects.equals(googleScholarId, autor.googleScholarId) && Objects.equals(scopusAuthorId, autor.scopusAuthorId) && Objects.equals(artigos, autor.artigos);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, shortName, scientificName, affiliation, orcid, scienceId, googleScholarId, scopusAuthorId);
+        return Objects.hash(nome, nomeCientifico, filiacao, orcid, cienciaId, googleScholarId, scopusAuthorId, artigos);
     }
 
     @Override
     public String toString() {
         return "Autor{" +
-                "name='" + name + '\'' +
-                ", shortName='" + shortName + '\'' +
-                ", scientificName='" + scientificName + '\'' +
-                ", affiliation='" + affiliation + '\'' +
+                "nome='" + nome + '\'' +
+                ", nomeCientifico='" + nomeCientifico + '\'' +
+                ", filiacao='" + filiacao + '\'' +
                 ", orcid='" + orcid + '\'' +
-                ", scienceId='" + scienceId + '\'' +
+                ", cienciaId='" + cienciaId + '\'' +
                 ", googleScholarId='" + googleScholarId + '\'' +
                 ", scopusAuthorId='" + scopusAuthorId + '\'' +
+                ", artigos=" + artigos +
                 '}';
     }
 }
+

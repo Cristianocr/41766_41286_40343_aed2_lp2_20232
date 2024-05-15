@@ -1,21 +1,18 @@
 package edu.ufp.inf.PROJETO_AED2LP2_2024;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class BD {
-    private Map<String, Artigo> artigos;
-    private Map<String, Autor> autores;
-    private Set<Publicacao> publicacoes;
+    private Hashtable<Integer, Artigo> artigos;
+    private Hashtable<String, Autor> autores;
+    private Hashtable<Integer, Publicacao> publicacoes;
     private GrafoArtigos grafoArtigos;
     private GrafoAutores grafoAutores;
 
     public BD() {
-        this.artigos = new HashMap<>();
-        this.autores = new HashMap<>();
-        this.publicacoes = new HashSet<>();
+        this.artigos = new Hashtable<>();
+        this.autores = new Hashtable<>();
+        this.publicacoes = new Hashtable<>();
         this.grafoArtigos = new GrafoArtigos();
         this.grafoAutores = new GrafoAutores();
     }
@@ -25,34 +22,38 @@ public class BD {
         artigos.put(artigo.getId(), artigo);
     }
 
-    public void removerArtigo(String id) {
+    public void removerArtigo(int id) {
         artigos.remove(id);
     }
 
-    public Artigo pesquisarArtigo(String id) {
+    public Artigo pesquisarArtigo(int id) {
         return artigos.get(id);
     }
 
     // Métodos para adicionar, remover e pesquisar autores
     public void adicionarAutor(Autor autor) {
-        autores.put(autor.getId(), autor);
+        autores.put(autor.getOrcid(), autor);
     }
 
-    public void removerAutor(String id) {
-        autores.remove(id);
+    public void removerAutor(String orcid) {
+        autores.remove(orcid);
     }
 
-    public Autor pesquisarAutor(String id) {
-        return autores.get(id);
+    public Autor pesquisarAutor(String orcid) {
+        return autores.get(orcid);
     }
 
     // Métodos para adicionar, remover e pesquisar publicações
     public void adicionarPublicacao(Publicacao publicacao) {
-        publicacoes.add(publicacao);
+        publicacoes.put(publicacao.getId(), publicacao);
     }
 
-    public void removerPublicacao(Publicacao publicacao) {
-        publicacoes.remove(publicacao);
+    public void removerPublicacao(int id) {
+        publicacoes.remove(id);
+    }
+
+    public Publicacao pesquisarPublicacao(int id) {
+        return publicacoes.get(id);
     }
 
     // Métodos para manipular grafos de artigos e autores

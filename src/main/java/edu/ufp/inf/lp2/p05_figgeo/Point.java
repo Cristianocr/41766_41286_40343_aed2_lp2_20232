@@ -86,7 +86,7 @@ public class Point {
         return Float.compare(x, point.x) == 0 && Float.compare(y, point.y) == 0;
     }
 
-    public Point() {
+    public Point(double v, double v1) {
         super();
     }
 

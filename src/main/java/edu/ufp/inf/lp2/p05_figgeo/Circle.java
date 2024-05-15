@@ -8,7 +8,7 @@ public class Circle extends FigGeo {
 
     private float radius;
 
-    public Circle() {
+    public Circle(Point point, double v, Color blue) {
 
     }
 

@@ -1,10 +1,13 @@
 package edu.ufp.inf.PROJETO_AED2LP2_2024;
 
+import edu.ufp.inf.lp2.p01_intro.A;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Artigo {
-    private String id;
+    private static int lastId = 0;
+    private Integer id;
     private String titulo;
     private ArrayList<String> palavrasChave;
     private String abstracto;
@@ -12,11 +15,12 @@ public class Artigo {
     private int ano;
     private int numDownloads;
     private int numVisualizacoes;
+    private int numlikes;
     private ArrayList<Autor> autores;
-    private ArrayList<Artigo> referencias;
+    private ArrayList<Artigo> citacoes;
 
-    public Artigo(String titulo, ArrayList<String> palavrasChave, String abstracto, String tipoPublicacao, int ano,
-                  int numDownloads, int numVisualizacoes) {
+    public Artigo(String titulo, ArrayList<String> palavrasChave, String abstracto, String tipoPublicacao, int ano, int numDownloads, int numVisualizacoes, int numlikes, ArrayList<Autor> autores, ArrayList<Artigo> citacoes) {
+        this.id = ++lastId;
         this.titulo = titulo;
         this.palavrasChave = palavrasChave;
         this.abstracto = abstracto;
@@ -24,16 +28,13 @@ public class Artigo {
         this.ano = ano;
         this.numDownloads = numDownloads;
         this.numVisualizacoes = numVisualizacoes;
-        this.autores = new ArrayList<>();
-        this.referencias = new ArrayList<>();
+        this.numlikes = numlikes;
+        this.autores = autores;
+        this.citacoes = citacoes;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getTitulo() {
@@ -50,6 +51,16 @@ public class Artigo {
 
     public void setPalavrasChave(ArrayList<String> palavrasChave) {
         this.palavrasChave = palavrasChave;
+    }
+
+    public void addPlavraChave(String palavraChave) {
+        this.palavrasChave.add(palavraChave);
+    }
+
+    public void removePlavraChave(String palavraChave) {
+        if(!this.palavrasChave.contains(palavraChave)){
+            this.palavrasChave.remove(palavraChave);
+        }
     }
 
     public String getAbstracto() {
@@ -92,28 +103,50 @@ public class Artigo {
         this.numVisualizacoes = numVisualizacoes;
     }
 
+    public int getNumlikes() {
+        return numlikes;
+    }
+
+    public void setNumlikes(int numlikes) {
+        this.numlikes = numlikes;
+    }
+
     public ArrayList<Autor> getAutores() {
         return autores;
+    }
+
+    public void addAutor(Autor autor) {
+        this.autores.add(autor);
+    }
+
+    public void removeAutor(Autor autor) {
+        if(autores.contains(autor)){
+            this.autores.remove(autor);
+        }
     }
 
     public void setAutores(ArrayList<Autor> autores) {
         this.autores = autores;
     }
 
-    public ArrayList<Artigo> getReferencias() {
-        return referencias;
+    public ArrayList<Artigo> getCitacoes() {
+        return citacoes;
     }
 
-    public void setReferencias(ArrayList<Artigo> referencias) {
-        this.referencias = referencias;
+    public void addCitacao(Artigo artigo){
+        if(!citacoes.contains(artigo)){
+            this.citacoes.add(artigo);
+        }
     }
 
-    public void adicionarAutor(Autor autor) {
-        autores.add(autor);
+    public void removeCitacao(Artigo artigo) {
+        if(citacoes.contains(artigo)){
+            this.citacoes.remove(artigo);
+        }
     }
 
-    public void adicionarReferencia(Artigo artigo) {
-        referencias.add(artigo);
+    public void setCitacoes(ArrayList<Artigo> citacoes) {
+        this.citacoes = citacoes;
     }
 
     @Override
@@ -121,26 +154,28 @@ public class Artigo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Artigo artigo = (Artigo) o;
-        return ano == artigo.ano && numDownloads == artigo.numDownloads && numVisualizacoes == artigo.numVisualizacoes && Objects.equals(titulo, artigo.titulo) && Objects.equals(palavrasChave, artigo.palavrasChave) && Objects.equals(abstracto, artigo.abstracto) && Objects.equals(tipoPublicacao, artigo.tipoPublicacao) && Objects.equals(autores, artigo.autores) && Objects.equals(referencias, artigo.referencias);
+        return ano == artigo.ano && numDownloads == artigo.numDownloads && numVisualizacoes == artigo.numVisualizacoes && numlikes == artigo.numlikes && Objects.equals(id, artigo.id) && Objects.equals(titulo, artigo.titulo) && Objects.equals(palavrasChave, artigo.palavrasChave) && Objects.equals(abstracto, artigo.abstracto) && Objects.equals(tipoPublicacao, artigo.tipoPublicacao) && Objects.equals(autores, artigo.autores) && Objects.equals(citacoes, artigo.citacoes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(titulo, palavrasChave, abstracto, tipoPublicacao, ano, numDownloads, numVisualizacoes, autores, referencias);
+        return Objects.hash(id, titulo, palavrasChave, abstracto, tipoPublicacao, ano, numDownloads, numVisualizacoes, numlikes, autores, citacoes);
     }
 
     @Override
     public String toString() {
         return "Artigo{" +
-                "titulo='" + titulo + '\'' +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
                 ", palavrasChave=" + palavrasChave +
                 ", abstracto='" + abstracto + '\'' +
                 ", tipoPublicacao='" + tipoPublicacao + '\'' +
                 ", ano=" + ano +
                 ", numDownloads=" + numDownloads +
                 ", numVisualizacoes=" + numVisualizacoes +
+                ", numlikes=" + numlikes +
                 ", autores=" + autores +
-                ", referencias=" + referencias +
+                ", citacoes=" + citacoes +
                 '}';
     }
 }

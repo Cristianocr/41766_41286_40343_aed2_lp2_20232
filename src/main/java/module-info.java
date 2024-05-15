@@ -12,6 +12,7 @@ module edu.ufp.inf.aed2_lp2_2324_students {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.logging;
 
     opens edu.ufp.inf.lp2.p06_gui_javafx.helloword to javafx.fxml;
     exports edu.ufp.inf.lp2.p06_gui_javafx.helloword;
