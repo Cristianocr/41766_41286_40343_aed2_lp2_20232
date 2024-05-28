@@ -1,3 +1,4 @@
+
 package edu.ufp.inf.PROJETO_AED2LP2_2024;
 
 import java.util.ArrayList;
@@ -125,4 +126,3 @@ public class Autor {
                 '}';
     }
 }
-

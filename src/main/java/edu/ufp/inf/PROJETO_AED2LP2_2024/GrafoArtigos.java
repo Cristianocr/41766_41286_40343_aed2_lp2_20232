@@ -1,8 +1,11 @@
 package edu.ufp.inf.PROJETO_AED2LP2_2024;
 
+import edu.princeton.cs.algs4.Graph;
+
 import java.util.*;
 
 public class GrafoArtigos {
+    private Graph colaboration;
     private Map<Artigo, List<Artigo>> adjList;
 
     public GrafoArtigos() {
