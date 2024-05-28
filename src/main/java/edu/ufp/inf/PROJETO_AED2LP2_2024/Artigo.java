@@ -17,6 +17,7 @@ public class Artigo {
     private int numVisualizacoes;
     private int numlikes;
     private ArrayList<Autor> autores;
+    private boolean active = false;
 
     public Artigo(String titulo, ArrayList<String> palavrasChave, String abstracto, String tipoPublicacao, int ano, int numDownloads, int numVisualizacoes, int numlikes, ArrayList<Autor> autores) {
         this.id = ++lastId;
@@ -29,6 +30,7 @@ public class Artigo {
         this.numVisualizacoes = numVisualizacoes;
         this.numlikes = numlikes;
         this.autores = autores;
+        setActive(true);
     }
 
     public Integer getId() {
@@ -113,6 +115,13 @@ public class Artigo {
         return autores;
     }
 
+    public Autor getAutor(Autor a){
+        if(autores.contains(a)){
+            return a;
+        }
+        return null;
+    }
+
     public void addAutor(Autor autor) {
         this.autores.add(autor);
     }
@@ -140,7 +149,14 @@ public class Artigo {
         this.numDownloads++;
     }
 
-    ////////////////////////////////////////////////////
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

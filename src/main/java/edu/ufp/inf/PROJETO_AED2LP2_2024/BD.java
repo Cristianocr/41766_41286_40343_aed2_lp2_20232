@@ -4,10 +4,13 @@ import edu.princeton.cs.algs4.RedBlackBST;
 
 import java.util.*;
 
-public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface{
+public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface {
     private Hashtable<Integer, Artigo> artigos;
     private Hashtable<String, Autor> autores;
     private Hashtable<Integer, Publicacao> publicacoes;
+
+    //private Hashtable<Integer, Stats> statsArtigo;
+
     private GrafoArtigos grafoArtigos;
     private GrafoAutores grafoAutores;
 
@@ -20,7 +23,7 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface{
         this.artigos = new Hashtable<>();
         this.autores = new Hashtable<>();
         this.publicacoes = new Hashtable<>();
-        this.grafoArtigos = new GrafoArtigos();
+        this.grafoArtigos = new GrafoArtigos(artigos);
         this.grafoAutores = new GrafoAutores();
     }
 
@@ -28,21 +31,32 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface{
     @Override
     public void adicionarArtigo(Artigo artigo) {
         artigos.put(artigo.getId(), artigo);
-        grafoArtigos.adicionarArtigo(artigo);
     }
+
+    public void adicionarCitacao(Artigo from, Artigo to) {
+        if (!artigos.contains(from)) {
+            artigos.put(from.getId(), from);
+        }
+        if (!artigos.contains(to)) {
+            artigos.put(from.getId(), to);
+        }
+        adicionarCitacao(from, to);
+    }
+
     @Override
     public void removerArtigo(int id) {
         //artigos.remove(id);
         artigos.remove(id);
     }
+
     @Override
     public Artigo pesquisarArtigo(int id) {
         return artigos.get(id);
     }
 
     @Override
-    public void listarArtigos(){
-        for (int id : artigos.keySet()){
+    public void listarArtigos() {
+        for (int id : artigos.keySet()) {
             System.out.println(artigos.get(id));
         }
     }
@@ -66,8 +80,8 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface{
     }
 
     @Override
-    public void listarAutores(){
-        for (String orcid : autores.keySet()){
+    public void listarAutores() {
+        for (String orcid : autores.keySet()) {
             System.out.println(autores.get(orcid));
         }
     }
@@ -78,6 +92,7 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface{
     public void adicionarPublicacao(Publicacao publicacao) {
         publicacoes.put(publicacao.getId(), publicacao);
     }
+
     @Override
     public void removerPublicacao(int id) {
         //publicacoes.remove(id);
@@ -90,8 +105,8 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface{
     }
 
     @Override
-    public void listarPublicacoes(){
-        for (int id : publicacoes.keySet()){
+    public void listarPublicacoes() {
+        for (int id : publicacoes.keySet()) {
             System.out.println(publicacoes.get(id));
         }
     }
@@ -109,7 +124,6 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface{
     //-------------------------------------------------------------------------//
 
 
-
     // Outros métodos da classe BD...
 
     // 1. Todos os artigos escritos por um autor num dado período
@@ -117,8 +131,8 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface{
         ArrayList<Artigo> artigosPorAutor = new ArrayList<>();
         for (Integer key : artigos.keySet()) {
             Artigo artigo = artigos.get(key);
-            if(artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim){
-                if (artigo.getAutores().contains(autor)){
+            if (artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim) {
+                if (artigo.getAutores().contains(autor)) {
                     artigosPorAutor.add(artigo);
                 }
             }
@@ -131,8 +145,8 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface{
         ArrayList<Artigo> artigosNaoVisualizados = new ArrayList<>();
         for (Integer key : artigos.keySet()) {
             Artigo artigo = artigos.get(key);
-            if(artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim){
-                if (artigo.getNumDownloads() == 0 && artigo.getNumVisualizacoes() == 0){
+            if (artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim) {
+                if (artigo.getNumDownloads() == 0 && artigo.getNumVisualizacoes() == 0) {
                     artigosNaoVisualizados.add(artigo);
                 }
             }
@@ -145,8 +159,8 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface{
         ArrayList<Autor> autoresCitadores = new ArrayList<>();
         for (Autor autor : autores.values()) {
             for (Artigo artigo : autor.getArtigos()) {
-                if (artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim){
-                    if (listaArtigos.contains(artigo)){
+                if (artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim) {
+                    if (listaArtigos.contains(artigo)) {
                         autoresCitadores.add(autor);
                         break;
                     }
@@ -180,8 +194,8 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface{
         int totalCitas = 0;
         for (Integer key : artigos.keySet()) {
             Artigo artigo = artigos.get(key);
-            if (artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim){
-                if (artigo.getTipoPublicacao().equals(nomeJournal)){
+            if (artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim) {
+                if (artigo.getTipoPublicacao().equals(nomeJournal)) {
                     totalCitas += artigo.getNumlikes();
                 }
             }
@@ -194,18 +208,18 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface{
 
     //----------------------------------------------------R5----------------------------------------------------------
 
-    public void listarLigacoesEntreArtigos(){
+    public void listarLigacoesEntreArtigos() {
 
     }
 
-    public void estatisticasUtilizacaoArtigos(){
+    public void estatisticasUtilizacaoArtigos() {
 
     }
 
-    public void numeroLikesArtigos(){
-        int totallikes= 0;
+    public void numeroLikesArtigos() {
+        int totallikes = 0;
 
-        for (Artigo artigo : artigos.values()){
+        for (Artigo artigo : artigos.values()) {
             totallikes += artigo.getNumlikes();
         }
 
@@ -213,8 +227,7 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface{
     }
 
 
-
-    public void gerar_relatorio_global(){
+    public void gerar_relatorio_global() {
         System.out.println("Relatorio Global do Sistema: \n");
 
         System.out.println("Lista de Artigos: \n");

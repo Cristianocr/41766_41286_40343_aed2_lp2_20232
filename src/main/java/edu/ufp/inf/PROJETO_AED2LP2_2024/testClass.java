@@ -45,9 +45,9 @@ public class testClass {
 
         BD bd = new BD();
 
-        bd.getGrafoArtigos().adicionarArtigo(artigo1);
-        bd.getGrafoArtigos().adicionarArtigo(artigo2);
-        bd.getGrafoArtigos().adicionarArtigo(artigo3);
+        bd.adicionarArtigo(artigo1);
+        bd.adicionarArtigo(artigo2);
+        bd.adicionarArtigo(artigo3);
         bd.getGrafoArtigos().adicionarCitacao(artigo1, artigo2);
         bd.getGrafoArtigos().adicionarCitacao(artigo2, artigo3);
         bd.getGrafoArtigos().adicionarCitacao(artigo3, artigo1);

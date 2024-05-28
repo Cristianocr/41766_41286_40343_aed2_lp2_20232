@@ -13,6 +13,7 @@ public class Autor {
     private String googleScholarId;
     private String scopusAuthorId;
     private ArrayList<Artigo> artigos;
+    private boolean active = false;
 
     public Autor(String nomeCientifico, String filiacao, String nome, String cienciaId, String googleScholarId, String scopusAuthorId, ArrayList<Artigo> artigos) {
         this.nomeCientifico = nomeCientifico;
@@ -23,6 +24,7 @@ public class Autor {
         this.scopusAuthorId = scopusAuthorId;
         this.artigos = artigos;
         this.orcid = ORCIDGenerator.generateUniqueORCID(nome, nomeCientifico);
+        setActive(true);
     }
 
     public String getNome() {
@@ -85,18 +87,12 @@ public class Autor {
         this.artigos = artigos;
     }
 
-    public void addCitacao(Artigo artigo){
-        if(!artigos.contains(artigo)){
-            this.artigos.add(artigo);
+    public Artigo getArtigo(Artigo a) {
+        if (artigos.contains(a)) {
+            return a;
         }
+        return null;
     }
-
-    public void removeCitacao(Artigo artigo) {
-        if(artigos.contains(artigo)){
-            this.artigos.remove(artigo);
-        }
-    }
-
 
 
     @Override
@@ -124,5 +120,13 @@ public class Autor {
                 ", scopusAuthorId='" + scopusAuthorId + '\'' +
                 ", artigos=" + artigos +
                 '}';
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
