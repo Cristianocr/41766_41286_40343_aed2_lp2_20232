@@ -127,6 +127,20 @@ public class Artigo {
         this.autores = autores;
     }
 
+    //////////////////////////////////////////////////
+    public void incrementarLikes() {
+        this.numlikes++;
+    }
+
+    public void incrementarVisualizacoes() {
+        this.numVisualizacoes++;
+    }
+
+    public void incrementarDownloads() {
+        this.numDownloads++;
+    }
+
+    ////////////////////////////////////////////////////
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
