@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Autor {
+    private static int lastId = 0;
+    private Integer id;
     private String nome;
     private String nomeCientifico;
     private String filiacao;
@@ -16,6 +18,7 @@ public class Autor {
     private boolean active = false;
 
     public Autor(String nomeCientifico, String filiacao, String nome, String cienciaId, String googleScholarId, String scopusAuthorId, ArrayList<Artigo> artigos) {
+        this.id = ++lastId;
         this.nomeCientifico = nomeCientifico;
         this.filiacao = filiacao;
         this.nome = nome;
@@ -128,5 +131,13 @@ public class Autor {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

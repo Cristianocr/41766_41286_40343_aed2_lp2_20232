@@ -10,16 +10,20 @@ public class GrafoArtigos {
     EdgeWeightedDigraph citacoes;
 
     public GrafoArtigos(int V) {
-        citacoes = new EdgeWeightedDigraph(V);
+        if (V == 0) {
+            this.citacoes = new EdgeWeightedDigraph(1);
+        }
+        this.citacoes = new EdgeWeightedDigraph(V);
     }
 
     public GrafoArtigos(Hashtable<Integer, Artigo> artigos) {
-        citacoes = new EdgeWeightedDigraph(artigos.size());
+        this.citacoes = new EdgeWeightedDigraph(artigos.size());
     }
 
     public void increaseGraph(int i) {
-        EdgeWeightedDigraph G = new EdgeWeightedDigraph(i);
-        citacoes = new EdgeWeightedDigraph(G);
+        EdgeWeightedDigraph G = new EdgeWeightedDigraph(i * 3);
+        this.citacoes = new EdgeWeightedDigraph(G);
+
     }
 
     public void adicionarCitacao(Artigo from, Artigo to) {
@@ -29,7 +33,11 @@ public class GrafoArtigos {
         if (from.getId() > citacoes.V()) {
             increaseGraph(from.getId());
         }
+
         double[] attr = new double[2];
+        if ((from.getAno() - to.getAno()) < 0) {
+            return;
+        }
         attr[0] = from.getAno() - to.getAno();
         attr[1] = outDegree(from) + 1 - outDegree(to);
         DirectedEdge edge = new DirectedEdge(from.getId(), to.getId(), attr);

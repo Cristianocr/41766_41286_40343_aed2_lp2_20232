@@ -87,20 +87,45 @@ public class testClass {
         ArrayList<Autor> autores1 = new ArrayList<>(Arrays.asList(autor1, autor2));
         ArrayList<Autor> autores2 = new ArrayList<>(Arrays.asList(autor2, autor3));
 
-        Artigo artigo1 = new Artigo("Título 1", new ArrayList<>(Arrays.asList("palavra1", "palavra2")), "abstract1", "journal", 2024, 100, 200, 50, autores1);
-        Artigo artigo2 = new Artigo("Título 2", new ArrayList<>(Arrays.asList("palavra3", "palavra4")), "abstract2", "journal", 2024, 150, 250, 60, autores2);
+        Artigo artigo1 = new Artigo("Título 1", new ArrayList<>(Arrays.asList("palavra1", "palavra2")), "abstract1", "journal", 2002, 100, 200, 50, autores1);
+        Artigo artigo2 = new Artigo("Título 2", new ArrayList<>(Arrays.asList("palavra3", "palavra4")), "abstract2", "journal", 1995, 150, 250, 60, autores2);
+        Artigo artigo3 = new Artigo("Título 1", new ArrayList<>(Arrays.asList("palavra1", "palavra2")), "abstract1", "journal", 2023, 100, 200, 50, autores1);
+        Artigo artigo4 = new Artigo("Título 2", new ArrayList<>(Arrays.asList("palavra3", "palavra4")), "abstract2", "journal", 2008, 150, 250, 60, autores2);
+
 
         bd.adicionarArtigo(artigo1);
         bd.adicionarArtigo(artigo2);
+        bd.adicionarArtigo(artigo3);
+        bd.adicionarArtigo(artigo4);
 
         bd.adicionarAutor(autor1);
         bd.adicionarAutor(autor2);
         bd.adicionarAutor(autor3);
 
-        bd.getGrafoAutores().adicionarCoautoria(autor1, autor2);
-        bd.getGrafoAutores().adicionarCoautoria(autor2, autor3);
+        ArrayList<Integer> teste = new ArrayList<>();
+
+        teste.add(artigo1.getId());
+        teste.add(artigo2.getId());
+        teste.add(artigo3.getId());
+
+        bd.adicionarCitacao(artigo1, artigo2);
+        bd.adicionarCitacao(artigo2, artigo3);
+        bd.adicionarCitacao(artigo3, artigo4);
+        bd.adicionarCitacao(artigo4, artigo1);
+
+
+        bd.adicionarColaboracao(autor1, autor2, teste);
+        bd.adicionarColaboracao(autor2, autor3, artigo4.getId());
+        bd.adicionarColaboracao(autor3, autor2, artigo3.getId());
+        bd.adicionarColaboracao(autor1, autor3, artigo2.getId());
+        bd.adicionarColaboracao(autor1, autor3, artigo3.getId());
+        teste.add(artigo2.getId());
+        bd.adicionarColaboracao(autor1, autor2, teste);
+
+        bd.getGrafoArtigos().imprimirGrafo();
+
+        System.out.println("\n");
 
         bd.getGrafoAutores().imprimirGrafo();
     }
-
 }

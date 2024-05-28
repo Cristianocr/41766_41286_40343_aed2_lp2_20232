@@ -1,36 +1,112 @@
 package edu.ufp.inf.PROJETO_AED2LP2_2024;
 
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdOut;
+
 import java.util.*;
 
 public class GrafoAutores {
-    private Map<Autor, Set<Autor>> adjList;
 
-    public GrafoAutores() {
-        this.adjList = new HashMap<>();
+    private EdgeWeightedGraph colaboracoes;
+
+    public GrafoAutores(int V) {
+        this.colaboracoes = new EdgeWeightedGraph(V);
     }
 
-    public void adicionarAutor(Autor autor) {
-        this.adjList.putIfAbsent(autor, new HashSet<>());
+    public GrafoAutores(Hashtable<Integer, Autor> autores) {
+        this.colaboracoes = new EdgeWeightedGraph(autores.size());
     }
 
-    public void adicionarCoautoria(Autor autor1, Autor autor2) {
-        this.adjList.putIfAbsent(autor1, new HashSet<>());
-        this.adjList.putIfAbsent(autor2, new HashSet<>());
-        this.adjList.get(autor1).add(autor2);
-        this.adjList.get(autor2).add(autor1);  // Aresta bidirecional
+    public void increaseGraph(int i) {
+        EdgeWeightedGraph G = new EdgeWeightedGraph(i * 4);
+        this.colaboracoes = new EdgeWeightedGraph(G);
+    }
+
+    public void addColaboracao(Autor a, Autor b, ArrayList<Integer> artigos) {
+        if (a.getId() > colaboracoes.V()) {
+            increaseGraph(a.getId());
+        }
+        if (b.getId() > colaboracoes.V()) {
+            increaseGraph(b.getId());
+        }
+        Edge edgeA = findVwW(a, b);
+        Edge edgeB = findVwW(b, a);
+        if (edgeA != null && edgeB != null) {
+            updateEdges(edgeA, edgeB, artigos);
+        } else {
+            Edge e = new Edge(a.getId(), b.getId(), artigos);
+            colaboracoes.addEdge(e);
+        }
+    }
+
+    public void addColaboracao(Autor a, Autor b, Integer artigo) {
+        if (a.getId() > colaboracoes.V()) {
+            increaseGraph(a.getId());
+        }
+        if (b.getId() > colaboracoes.V()) {
+            increaseGraph(b.getId());
+        }
+        Edge edgeA = findVwW(a, b);
+        Edge edgeB = findVwW(b, a);
+        if (edgeA != null && edgeB != null) {
+            updateEdges(edgeA, edgeB, artigo);
+        } else {
+            Edge e = new Edge(a.getId(), b.getId());
+            e.addArtigo(artigo);
+            colaboracoes.addEdge(e);
+        }
+    }
+
+    public Edge findVwW(Autor a, Autor b) {
+        Iterable<Edge> iteratorA = colaboracoes.adj(a.getId());
+        for (Edge e : iteratorA) {
+            if (e.other(a.getId()) == b.getId()) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public void updateEdges(Edge a, Edge b, ArrayList<Integer> artigos) {
+        for (Integer id : artigos) {
+            if (!a.getArticleIds().contains(id) && !b.getArticleIds().contains(id)) {
+                a.addArtigo(id);
+                b.addArtigo(id);
+            }
+        }
+    }
+
+    public void updateEdges(Edge a, Edge b, Integer artigoId) {
+        if (!a.getArticleIds().contains(artigoId) && !b.getArticleIds().contains(artigoId)) {
+            a.addArtigo(artigoId);
+            b.addArtigo(artigoId);
+        }
+    }
+
+    public int getDegree(Autor a) {
+        return colaboracoes.degree(a.getId());
+    }
+
+    public int hasWorkWith(Integer i) {
+        return colaboracoes.degree(i);
+    }
+
+    public int hasWorkWith(Autor a) {
+        return colaboracoes.degree(a.getId());
+    }
+
+    public EdgeWeightedGraph getColaboracoes() {
+        return colaboracoes;
     }
 
     public Set<Autor> obterCoautores(Autor autor) {
-        return this.adjList.getOrDefault(autor, new HashSet<>());
+        return null;
     }
 
     public void imprimirGrafo() {
-        for (Map.Entry<Autor, Set<Autor>> entry : adjList.entrySet()) {
-            System.out.print(entry.getKey().getNome() + " -> ");
-            for (Autor coautor : entry.getValue()) {
-                System.out.print(coautor.getNome() + ", ");
-            }
-            System.out.println();
+        Iterable<Edge> iterator = colaboracoes.edges();
+        for (Edge e : iterator) {
+            StdOut.println(e.toString());
         }
     }
 }

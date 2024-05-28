@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 
 public class EdgeWeightedDigraph {
     private static final String NEWLINE = System.getProperty("line.separator");
-    private final int V;
+    private int V;
     private int E;
     private Bag<DirectedEdge>[] adj;
     private int[] indegree;
@@ -22,12 +22,16 @@ public class EdgeWeightedDigraph {
         if (V < 0) {
             throw new IllegalArgumentException("Number of vertices in a Digraph must be non-negative");
         } else {
-            this.V = V;
+            if (V == 0) {
+                this.V = 1;
+            } else {
+                this.V = V;
+            }
             this.E = 0;
             this.indegree = new int[V];
             this.adj = new Bag[V];
 
-            for(int v = 0; v < V; ++v) {
+            for (int v = 0; v < V; ++v) {
                 this.adj[v] = new Bag();
             }
 
@@ -39,10 +43,10 @@ public class EdgeWeightedDigraph {
         if (E < 0) {
             throw new IllegalArgumentException("Number of edges in a Digraph must be non-negative");
         } else {
-            for(int i = 0; i < E; ++i) {
+            for (int i = 0; i < E; ++i) {
                 int v = StdRandom.uniformInt(V);
                 int w = StdRandom.uniformInt(V);
-                double[] weight = {0,0};
+                double[] weight = {0, 0};
                 DirectedEdge e = new DirectedEdge(v, w, weight);
                 this.addEdge(e);
             }
@@ -63,7 +67,7 @@ public class EdgeWeightedDigraph {
                     this.adj = new Bag[this.V];
 
                     int E;
-                    for(E = 0; E < this.V; ++E) {
+                    for (E = 0; E < this.V; ++E) {
                         this.adj[E] = new Bag();
                     }
 
@@ -71,7 +75,7 @@ public class EdgeWeightedDigraph {
                     if (E < 0) {
                         throw new IllegalArgumentException("Number of edges must be non-negative");
                     } else {
-                        for(int i = 0; i < E; ++i) {
+                        for (int i = 0; i < E; ++i) {
                             int v = in.readInt();
                             int w = in.readInt();
                             this.validateVertex(v);
@@ -94,24 +98,24 @@ public class EdgeWeightedDigraph {
         this.E = G.E();
 
         int v;
-        for(v = 0; v < G.V(); ++v) {
+        for (v = 0; v < G.V(); ++v) {
             this.indegree[v] = G.indegree(v);
         }
 
-        for(v = 0; v < G.V(); ++v) {
+        for (v = 0; v < G.V(); ++v) {
             Stack<DirectedEdge> reverse = new Stack();
             Iterator var4 = G.adj[v].iterator();
 
             DirectedEdge e;
-            while(var4.hasNext()) {
-                e = (DirectedEdge)var4.next();
+            while (var4.hasNext()) {
+                e = (DirectedEdge) var4.next();
                 reverse.push(e);
             }
 
             var4 = reverse.iterator();
 
-            while(var4.hasNext()) {
-                e = (DirectedEdge)var4.next();
+            while (var4.hasNext()) {
+                e = (DirectedEdge) var4.next();
                 this.adj[v].add(e);
             }
         }
@@ -128,7 +132,7 @@ public class EdgeWeightedDigraph {
 
     private void validateVertex(int v) {
         if (v < 0 || v >= this.V) {
-            throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (this.V - 1));
+            throw new IllegalArgumentException("Digraph: vertex " + v + " is not between 0 and " + (this.V - 1));
         }
     }
 
@@ -146,6 +150,7 @@ public class EdgeWeightedDigraph {
         this.validateVertex(v);
         return this.adj[v];
     }
+
     public int adj(Artigo a) {
         this.validateVertex(a.getId());
         return this.adj[a.getId()].size();
@@ -164,11 +169,11 @@ public class EdgeWeightedDigraph {
     public Iterable<DirectedEdge> edges() {
         Bag<DirectedEdge> list = new Bag();
 
-        for(int v = 0; v < this.V; ++v) {
+        for (int v = 0; v < this.V; ++v) {
             Iterator var3 = this.adj(v).iterator();
 
-            while(var3.hasNext()) {
-                DirectedEdge e = (DirectedEdge)var3.next();
+            while (var3.hasNext()) {
+                DirectedEdge e = (DirectedEdge) var3.next();
                 list.add(e);
             }
         }
@@ -180,12 +185,12 @@ public class EdgeWeightedDigraph {
         StringBuilder s = new StringBuilder();
         s.append(this.V + " " + this.E + NEWLINE);
 
-        for(int v = 0; v < this.V; ++v) {
+        for (int v = 0; v < this.V; ++v) {
             s.append("" + v + ": ");
             Iterator var3 = this.adj[v].iterator();
 
-            while(var3.hasNext()) {
-                DirectedEdge e = (DirectedEdge)var3.next();
+            while (var3.hasNext()) {
+                DirectedEdge e = (DirectedEdge) var3.next();
                 s.append("" + e + "  ");
             }
 

@@ -7,6 +7,7 @@ import java.util.*;
 public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface {
     private Hashtable<Integer, Artigo> artigos;
     private Hashtable<String, Autor> autores;
+    private Hashtable<Integer, Autor> autoresID;
     private Hashtable<Integer, Publicacao> publicacoes;
 
     //private Hashtable<Integer, Stats> statsArtigo;
@@ -22,9 +23,10 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
     public BD() {
         this.artigos = new Hashtable<>();
         this.autores = new Hashtable<>();
+        this.autoresID = new Hashtable<>();
         this.publicacoes = new Hashtable<>();
         this.grafoArtigos = new GrafoArtigos(artigos);
-        this.grafoAutores = new GrafoAutores();
+        this.grafoAutores = new GrafoAutores(autoresID);
     }
 
     // Métodos para adicionar, remover e pesquisar artigos
@@ -40,7 +42,8 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
         if (!artigos.contains(to)) {
             artigos.put(from.getId(), to);
         }
-        adicionarCitacao(from, to);
+        grafoArtigos.adicionarCitacao(from, to);
+
     }
 
     @Override
@@ -66,7 +69,27 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
     @Override
     public void adicionarAutor(Autor autor) {
         autores.put(autor.getOrcid(), autor);
-        grafoAutores.adicionarAutor(autor);
+    }
+
+    public void adicionarColaboracao(Autor a, Autor b, Integer artigo) {
+        if (grafoAutores.getColaboracoes().V() <= a.getId()) {
+            grafoAutores.increaseGraph(a.getId());
+
+        }
+        if (grafoAutores.getColaboracoes().V() <= b.getId()) {
+            grafoAutores.increaseGraph(b.getId());
+        }
+        grafoAutores.addColaboracao(a, b, artigo);
+    }
+
+    public void adicionarColaboracao(Autor a, Autor b, ArrayList<Integer> artigos) {
+        if (grafoAutores.getColaboracoes().V() <= a.getId()) {
+            grafoAutores.increaseGraph(a.getId());
+        }
+        if (grafoAutores.getColaboracoes().V() <= b.getId()) {
+            grafoAutores.increaseGraph(b.getId());
+        }
+        grafoAutores.addColaboracao(a, b, artigos);
     }
 
     @Override
@@ -250,4 +273,11 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
     }
 
 
+    public Hashtable<Integer, Autor> getAutoresID() {
+        return autoresID;
+    }
+
+    public void setAutoresID(Hashtable<Integer, Autor> autoresID) {
+        this.autoresID = autoresID;
+    }
 }

@@ -38,9 +38,9 @@ public class DirectedEdge {
         return this.weight;
     }
 
+    @Override
     public String toString() {
-        int var10000 = this.v;
-        return "" + var10000 + "->" + this.w + " " + String.format("%5.2f", this.weight);
+        return String.format("%d->%d [%.2f, %.2f]", v, w, weight[0], weight[1]);
     }
 
     public static void main(String[] args) {
