@@ -28,7 +28,7 @@ public class Artigo {
         this.publicacao = publicacao;
         if (isJournal(publicacao)) {
             this.tipoPublicacao = "Journal";
-        }else if (isConference(publicacao)) {
+        } else if (isConference(publicacao)) {
             this.tipoPublicacao = "Conference";
         }
         this.tipoPublicacao = tipoPublicacao;
@@ -170,6 +170,18 @@ public class Artigo {
 
     public boolean isConference(Publicacao publicacao) {
         return publicacao instanceof Conference;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Publicacao getPublicacao() {
+        return publicacao;
+    }
+
+    public void setPublicacao(Publicacao publicacao) {
+        this.publicacao = publicacao;
     }
 
     @Override
