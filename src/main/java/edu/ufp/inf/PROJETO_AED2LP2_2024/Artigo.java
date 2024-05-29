@@ -12,6 +12,7 @@ public class Artigo {
     private ArrayList<String> palavrasChave;
     private String abstracto;
     private String tipoPublicacao;
+    private Publicacao publicacao;
     private int ano;
     private int numDownloads;
     private int numVisualizacoes;
@@ -19,11 +20,17 @@ public class Artigo {
     private ArrayList<Autor> autores;
     private boolean active = false;
 
-    public Artigo(String titulo, ArrayList<String> palavrasChave, String abstracto, String tipoPublicacao, int ano, int numDownloads, int numVisualizacoes, int numlikes, ArrayList<Autor> autores) {
+    public Artigo(String titulo, ArrayList<String> palavrasChave, String abstracto, int ano, int numDownloads, int numVisualizacoes, int numlikes, ArrayList<Autor> autores, Publicacao publicacao) {
         this.id = ++lastId;
         this.titulo = titulo;
         this.palavrasChave = palavrasChave;
         this.abstracto = abstracto;
+        this.publicacao = publicacao;
+        if (isJournal(publicacao)) {
+            this.tipoPublicacao = "Journal";
+        }else if (isConference(publicacao)) {
+            this.tipoPublicacao = "Conference";
+        }
         this.tipoPublicacao = tipoPublicacao;
         this.ano = ano;
         this.numDownloads = numDownloads;
@@ -58,7 +65,7 @@ public class Artigo {
     }
 
     public void removePlavraChave(String palavraChave) {
-        if(!this.palavrasChave.contains(palavraChave)){
+        if (!this.palavrasChave.contains(palavraChave)) {
             this.palavrasChave.remove(palavraChave);
         }
     }
@@ -115,8 +122,8 @@ public class Artigo {
         return autores;
     }
 
-    public Autor getAutor(Autor a){
-        if(autores.contains(a)){
+    public Autor getAutor(Autor a) {
+        if (autores.contains(a)) {
             return a;
         }
         return null;
@@ -127,7 +134,7 @@ public class Artigo {
     }
 
     public void removeAutor(Autor autor) {
-        if(autores.contains(autor)){
+        if (autores.contains(autor)) {
             this.autores.remove(autor);
         }
     }
@@ -155,6 +162,14 @@ public class Artigo {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isJournal(Publicacao publicacao) {
+        return publicacao instanceof Journal;
+    }
+
+    public boolean isConference(Publicacao publicacao) {
+        return publicacao instanceof Conference;
     }
 
     @Override

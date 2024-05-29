@@ -23,7 +23,8 @@ public class testClass {
         Autor autor2 = new Autor("Zé", "muita", "José", "bfvdfv", "dfgh", "fgghj", null);
         autores.add(autor1);
         autores.add(autor2);
-        Artigo artigo1 = new Artigo("TESTE1", palavrasChave, "texto bueda grande e fixe", "Journal", 2020, 0, 0, 0, autores);
+        Conference c= new Conference("Ola", "nome1", 2020, 1, "Local1");
+        Artigo artigo1 = new Artigo("TESTE1", palavrasChave, "texto bueda grande e fixe", 2020, 0, 0, 0, autores, c);
         System.out.println(artigo1);
     }
 
@@ -33,15 +34,16 @@ public class testClass {
         palavrasChave.add("fdg");
         palavrasChave.add("ghjk");
         ArrayList<Autor> autores = new ArrayList<>();
+        Journal j = new Journal("Titulo1", "nome", "Publicador", 2019, "mensal", 0.0f, 0.0f);
         Autor autor1 = new Autor("Zé", "muita", "José", "bfvdfv", "dfgh", "fgghj", null);
         Autor autor2 = new Autor("Zé", "muita", "José", "bfvdfv", "dfgh", "fgghj", null);
         autores.add(autor2);
         autores.add(autor2);
-        Artigo artigo1 = new Artigo("TESTE1", palavrasChave, "texto bueda grande e fixe", "Journal", 2020, 0, 0, 0, autores);
+        Artigo artigo1 = new Artigo("TESTE1", palavrasChave, "texto bueda grande e fixe", 2020, 0, 0, 0, autores, j);
         System.out.println(artigo1);
-        Artigo artigo2 = new Artigo("TESTE2", palavrasChave, "texto bueda grande e fixe", "Journal", 2020, 0, 0, 0, autores);
+        Artigo artigo2 = new Artigo("TESTE2", palavrasChave, "texto bueda grande e fixe", 2020, 0, 0, 0, autores, j);
         System.out.println(artigo2);
-        Artigo artigo3 = new Artigo("TESTE3", palavrasChave, "texto bueda grande e fixe", "Journal", 2020, 0, 0, 0, autores);
+        Artigo artigo3 = new Artigo("TESTE3", palavrasChave, "texto bueda grande e fixe", 2020, 0, 0, 0, autores, j);
 
         BD bd = new BD();
 
@@ -58,6 +60,9 @@ public class testClass {
     public static void testGrafoArtigos() {
         BD bd = new BD();
 
+        Journal j = new Journal("Titulo1", "nome", "Publicador", 2019, "mensal", 0.0f, 0.0f);
+
+
         Autor autor1 = new Autor("Autor1", "A1", "A1Cientifico", "Filiação1", "ORCID1", "CienciaID1", null);
         Autor autor2 = new Autor("Autor2", "A2", "A2Cientifico", "Filiação2", "ORCID2", "CienciaID2", null);
 
@@ -65,8 +70,13 @@ public class testClass {
         autores1.add(autor1);
         autores1.add(autor2);
 
-        Artigo artigo1 = new Artigo("Título1", new ArrayList<>(Arrays.asList("palavra1", "palavra2")), "abstract1", "journal", 2024, 100, 200, 50, autores1);
-        Artigo artigo2 = new Artigo("Título2", new ArrayList<>(Arrays.asList("palavra3", "palavra4")), "abstract2", "journal", 2024, 150, 250, 60, autores1);
+        ArrayList<String> palavrasChave = new ArrayList<>();
+        palavrasChave.add("Afgdh");
+        palavrasChave.add("fdg");
+        palavrasChave.add("ghjk");
+
+        Artigo artigo1 = new Artigo("TESTE1", palavrasChave, "texto bueda grande e fixe", 2020, 0, 0, 0, autores1, j);
+        Artigo artigo2 = new Artigo("TESTE2", palavrasChave, "texto bueda grande e fixe", 2020, 0, 0, 0, autores1, j);
 
         bd.adicionarArtigo(artigo1);
         bd.adicionarArtigo(artigo2);
@@ -80,18 +90,26 @@ public class testClass {
 
         BD bd = new BD();
 
-        Autor autor1 = new Autor("Nome Científico 1", "Filiação 1", "Nome 1", "CienciaID1", "GoogleScholarID1", "ScopusID1", new ArrayList<>());
-        Autor autor2 = new Autor("Nome Científico 2", "Filiação 2", "Nome 2", "CienciaID2", "GoogleScholarID2", "ScopusID2", new ArrayList<>());
-        Autor autor3 = new Autor("Nome Científico 3", "Filiação 3", "Nome 3", "CienciaID3", "GoogleScholarID3", "ScopusID3", new ArrayList<>());
+        Autor autor1 = new Autor("Nome Científico 1", "Tecnologia", "Nome 1", "CienciaID1", "GoogleScholarID1", "ScopusID1", new ArrayList<>());
+        Autor autor2 = new Autor("Nome Científico 2", "Tecnologia", "Nome 2", "CienciaID2", "GoogleScholarID2", "ScopusID2", new ArrayList<>());
+        Autor autor3 = new Autor("Nome Científico 3", "Computacao", "Nome 3", "CienciaID3", "GoogleScholarID3", "ScopusID3", new ArrayList<>());
 
         ArrayList<Autor> autores1 = new ArrayList<>(Arrays.asList(autor1, autor2));
         ArrayList<Autor> autores2 = new ArrayList<>(Arrays.asList(autor2, autor3));
 
-        Artigo artigo1 = new Artigo("Título 1", new ArrayList<>(Arrays.asList("palavra1", "palavra2")), "abstract1", "journal", 2002, 100, 200, 50, autores1);
-        Artigo artigo2 = new Artigo("Título 2", new ArrayList<>(Arrays.asList("palavra3", "palavra4")), "abstract2", "journal", 1995, 150, 250, 60, autores2);
-        Artigo artigo3 = new Artigo("Título 1", new ArrayList<>(Arrays.asList("palavra1", "palavra2")), "abstract1", "journal", 2023, 100, 200, 50, autores1);
-        Artigo artigo4 = new Artigo("Título 2", new ArrayList<>(Arrays.asList("palavra3", "palavra4")), "abstract2", "journal", 2008, 150, 250, 60, autores2);
+        ArrayList<String> palavrasChave = new ArrayList<>();
+        palavrasChave.add("Afgdh");
+        palavrasChave.add("fdg");
+        palavrasChave.add("ghjk");
 
+        Journal j = new Journal("Titulo1", "nome", "Publicador", 2019, "mensal", 0.0f, 0.0f);
+        Conference c= new Conference("Ola", "nome1", 2020, 1, "Local1");
+
+
+        Artigo artigo1 = new Artigo("TESTE1", palavrasChave, "texto bueda grande e fixe", 2020, 0, 0, 0, autores1, j);
+        Artigo artigo2 = new Artigo("TESTE1", palavrasChave, "texto bueda grande e fixe", 2020, 0, 0, 0, autores2, c);
+        Artigo artigo3 = new Artigo("TESTE1", palavrasChave, "texto bueda grande e fixe", 2020, 0, 0, 0, autores1, j);
+        Artigo artigo4 = new Artigo("TESTE1", palavrasChave, "texto bueda grande e fixe", 2020, 0, 0, 0, autores2, c);
 
         bd.adicionarArtigo(artigo1);
         bd.adicionarArtigo(artigo2);

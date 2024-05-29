@@ -5,11 +5,12 @@ import edu.princeton.cs.algs4.RedBlackBST;
 import java.util.*;
 
 public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface {
+    private static BD instance;
+
     private Hashtable<Integer, Artigo> artigos;
     private Hashtable<String, Autor> autores;
     private Hashtable<Integer, Autor> autoresID;
     private Hashtable<Integer, Publicacao> publicacoes;
-
     //private Hashtable<Integer, Stats> statsArtigo;
 
     private GrafoArtigos grafoArtigos;
@@ -27,6 +28,13 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
         this.publicacoes = new Hashtable<>();
         this.grafoArtigos = new GrafoArtigos(artigos);
         this.grafoAutores = new GrafoAutores(autoresID);
+    }
+
+    public static synchronized BD getInstance() {
+        if (instance == null) {
+            instance = new BD();
+        }
+        return instance;
     }
 
     // Métodos para adicionar, remover e pesquisar artigos
