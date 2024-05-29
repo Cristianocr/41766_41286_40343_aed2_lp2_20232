@@ -16,10 +16,10 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
     private GrafoArtigos grafoArtigos;
     private GrafoAutores grafoAutores;
 
-    private RedBlackBST<Integer, Artigo> artigoTitulo;
-    private RedBlackBST<Integer, Artigo> artigoAno;
-    private RedBlackBST<String, Autor> nomeAutor;
-    private RedBlackBST<String, Publicacao> nomePublicacao;
+    private RedBlackBST<String, Integer> artigoTitulo;
+    private RedBlackBST<Integer, Integer> artigoAno;
+    private RedBlackBST<String, Integer> nomeAutor;
+    private RedBlackBST<String, Integer> nomePublicacao;
 
     public BD() {
         this.artigos = new Hashtable<>();
@@ -28,6 +28,11 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
         this.publicacoes = new Hashtable<>();
         this.grafoArtigos = new GrafoArtigos(artigos);
         this.grafoAutores = new GrafoAutores(autoresID);
+        this.artigoTitulo = new RedBlackBST<>();
+        this.artigoAno = new RedBlackBST<>();
+        this.nomeAutor = new RedBlackBST<>();
+        this.nomePublicacao = new RedBlackBST<>();
+
     }
 
     public static synchronized BD getInstance() {
@@ -41,6 +46,8 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
     @Override
     public void adicionarArtigo(Artigo artigo) {
         artigos.put(artigo.getId(), artigo);
+        artigoAno.put(artigo.getId(), artigo.getAno());
+        artigoTitulo.put(artigo.getTitulo(), artigo.getId());
     }
 
     public void adicionarCitacao(Artigo from, Artigo to) {
@@ -56,8 +63,7 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
 
     @Override
     public void removerArtigo(int id) {
-        //artigos.remove(id);
-        artigos.remove(id);
+        artigos.get(id).setActive(false);
     }
 
     @Override
@@ -76,7 +82,9 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
     // Métodos para adicionar, remover e pesquisar autores
     @Override
     public void adicionarAutor(Autor autor) {
+        autoresID.put(autor.getId(), autor);
         autores.put(autor.getOrcid(), autor);
+        nomeAutor.put(autor.getNome(), autor.getId());
     }
 
     public void adicionarColaboracao(Autor a, Autor b, Integer artigo) {
@@ -102,7 +110,11 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
 
     @Override
     public void removerAutor(String orcid) {
-        autores.remove(orcid);
+        autores.get(orcid).setActive(false);
+    }
+
+    public void removerAutor(Integer id) {
+        autoresID.get(id).setActive(false);
     }
 
     @Override
@@ -122,12 +134,12 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
     @Override
     public void adicionarPublicacao(Publicacao publicacao) {
         publicacoes.put(publicacao.getId(), publicacao);
+        nomePublicacao.put(publicacao.getTitulo(), publicacao.getId());
     }
 
     @Override
     public void removerPublicacao(int id) {
-        //publicacoes.remove(id);
-        publicacoes.remove(id);
+        publicacoes.get(id).setActive(false);
     }
 
     @Override
@@ -151,39 +163,17 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
         return grafoAutores;
     }
 
+    public Hashtable<Integer, Autor> getAutoresID() {
+        return autoresID;
+    }
+
+    public Autor getAutor(Integer id) {
+        Hashtable<Integer, Autor> a= getAutoresID();
+        return a.get(id);
+    }
+
 
     //-------------------------------------------------------------------------//
-
-
-    // Outros métodos da classe BD...
-
-    // 1. Todos os artigos escritos por um autor num dado período
-    public ArrayList<Artigo> artigosPorAutorNoPeriodo(Autor autor, int anoInicio, int anoFim) {
-        ArrayList<Artigo> artigosPorAutor = new ArrayList<>();
-        for (Integer key : artigos.keySet()) {
-            Artigo artigo = artigos.get(key);
-            if (artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim) {
-                if (artigo.getAutores().contains(autor)) {
-                    artigosPorAutor.add(artigo);
-                }
-            }
-        }
-        return artigosPorAutor;
-    }
-
-    // 2. Todos os artigos que não foram descarregados ou visualizados num dado período
-    public ArrayList<Artigo> artigosNaoVisualizadosNoPeriodo(int anoInicio, int anoFim) {
-        ArrayList<Artigo> artigosNaoVisualizados = new ArrayList<>();
-        for (Integer key : artigos.keySet()) {
-            Artigo artigo = artigos.get(key);
-            if (artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim) {
-                if (artigo.getNumDownloads() == 0 && artigo.getNumVisualizacoes() == 0) {
-                    artigosNaoVisualizados.add(artigo);
-                }
-            }
-        }
-        return artigosNaoVisualizados;
-    }
 
     // 3. Todos os autores que já citaram uma dada lista de artigos e num dado período
     public ArrayList<Autor> autoresQueCitaramArtigosNoPeriodo(ArrayList<Artigo> listaArtigos, int anoInicio, int anoFim) {
@@ -201,7 +191,36 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
         return autoresCitadores;
     }
 
-    // 4. O Top-3 dos Artigos que foram mais usados num dado período
+    // 1. Todos os artigos escritos por um autor num dado período
+    public ArrayList<Artigo> artigosPorAutorNoPeriodo(Autor autor, int anoInicio, int anoFim) {
+        ArrayList<Artigo> artigosPorAutor = new ArrayList<>();
+        for (Integer key : artigos.keySet()) {
+            Artigo artigo = artigos.get(key);
+            if (artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim) {
+                if (artigo.getAutores().contains(autor)) {
+                    artigosPorAutor.add(artigo);
+                }
+            }
+        }
+        return artigosPorAutor;
+    }
+
+    // 2. Todos os artigos que não foram descarregados ou visualizados num dado período
+    public ArrayList<Artigo> artigosNaoVisualizadosNoPeriodo(int anoInicio, int anoFim) {
+        ArrayList<Artigo> artigosNaoVisualizados_NaoDescarregados = new ArrayList<>();
+        for (Integer key : artigos.keySet()) {
+            Artigo artigo = artigos.get(key);
+            if (artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim) {
+                if (artigo.getNumDownloads() == 0 || artigo.getNumVisualizacoes() == 0) {
+                    artigosNaoVisualizados_NaoDescarregados.add(artigo);
+                }
+            }
+        }
+        return artigosNaoVisualizados_NaoDescarregados;
+    }
+
+
+    // 3. O Top-3 dos Artigos que foram mais usados num dado período
     public ArrayList<Artigo> topArtigosMaisUsadosNoPeriodo(int anoInicio, int anoFim) {
         ArrayList<Artigo> artigosMaisUsados = new ArrayList<>();
         for (Integer key : artigos.keySet()) {
@@ -220,41 +239,56 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
         return new ArrayList<>(artigosMaisUsados.subList(0, Math.min(3, artigosMaisUsados.size())));
     }
 
-    // 5. As citações de todos os artigos de um journal para um determinado período temporal
-    public int numeroCitasJournalNoPeriodo(String nomeJournal, int anoInicio, int anoFim) {
-        int totalCitas = 0;
-        for (Integer key : artigos.keySet()) {
-            Artigo artigo = artigos.get(key);
-            if (artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim) {
-                if (artigo.getTipoPublicacao().equals(nomeJournal)) {
-                    totalCitas += artigo.getNumlikes();
-                }
-            }
-            if (artigo.getTipoPublicacao().equals(nomeJournal) && artigo.getAno() >= anoInicio && artigo.getAno() <= anoFim) {
-                totalCitas += artigo.getNumlikes(); // Supondo que "likes" são contados como citações
-            }
-        }
-        return totalCitas;
-    }
 
     //----------------------------------------------------R5----------------------------------------------------------
 
-    public void listarLigacoesEntreArtigos() {
-
-    }
-
     public void estatisticasUtilizacaoArtigos() {
+        Map<Integer, Integer> UtilizacaoMensalVisualizacoes = new HashMap<>();
+        Map<Integer, Integer> UtilizacaoAnualVisualizacoes = new HashMap<>();
+        Map<Integer, Integer> UtilizacaoMensalDownloads = new HashMap<>();
+        Map<Integer, Integer> UtilizacaoAnualDownloads = new HashMap<>();
+
+
+        for (Artigo artigo : artigos.values()) {
+
+            int ano = artigo.getAno();
+            int downloads = artigo.getNumDownloads();
+            int visualizacoes = artigo.getNumVisualizacoes();
+
+            UtilizacaoAnualDownloads.put(ano, UtilizacaoAnualDownloads.getOrDefault(ano, 0) + downloads);
+            UtilizacaoAnualVisualizacoes.put(ano, UtilizacaoAnualVisualizacoes.getOrDefault(ano, 0) + visualizacoes);
+
+            System.out.println("Utilizacao Anual dos artigos (Donwloads): \n");
+            for (Map.Entry<Integer, Integer> entry : UtilizacaoAnualDownloads.entrySet()) {
+                System.out.println("Ano: " + entry.getKey() + ": " + entry.getValue() + "downloads");
+            }
+
+            System.out.println("Utilizacao Anual dos artigos (Visualizacoes): \n");
+            for (Map.Entry<Integer, Integer> entry : UtilizacaoAnualVisualizacoes.entrySet()) {
+                System.out.println("Ano: " + entry.getKey() + ": " + entry.getValue() + "visualizacoes");
+            }
+        }
+
 
     }
 
     public void numeroLikesArtigos() {
-        int totallikes = 0;
+
+        Map<Integer, Integer> likesanuais = new HashMap<>();
 
         for (Artigo artigo : artigos.values()) {
-            totallikes += artigo.getNumlikes();
+
+            int ano = artigo.getAno();
+            int likes = artigo.getNumlikes();
+
+            likesanuais.put(ano, likesanuais.getOrDefault(ano, 0) + likes);
         }
 
-        System.out.println("Total de Likes dos Artigos: " + totallikes);
+
+        System.out.println("Numero likes anuais dos Artigos: \n");
+        for (Map.Entry<Integer, Integer> entry : likesanuais.entrySet()) {
+            System.out.println("Ano " + entry.getValue() + ": " + entry.getValue() + "likes \n");
+        }
     }
 
 
@@ -273,19 +307,12 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
 
 
         System.out.println("Vezes que um artigo é descarregado ou visualizado: \n");
-        //estatisticasUtilizacaoArtigos();
+        estatisticasUtilizacaoArtigos();
 
 
         System.out.println("Numero de likes de um artigo: \n");
-        //numeroLikesArtigos();
+        numeroLikesArtigos();
     }
 
 
-    public Hashtable<Integer, Autor> getAutoresID() {
-        return autoresID;
-    }
-
-    public void setAutoresID(Hashtable<Integer, Autor> autoresID) {
-        this.autoresID = autoresID;
-    }
 }

@@ -7,6 +7,8 @@ public class Publicacao {
     private int id;
     private String titulo;
     private String tipo;
+    private boolean active = false;
+
 
     public Publicacao(String titulo, String tipo) {
         this.id = proximoId++;
@@ -33,6 +35,15 @@ public class Publicacao {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
 
     @Override
     public boolean equals(Object o) {
