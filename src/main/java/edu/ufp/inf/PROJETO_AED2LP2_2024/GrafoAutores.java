@@ -151,9 +151,6 @@ public class GrafoAutores {
                 autores.add(a.get(i));
             }
         }
-        if (autores.isEmpty()) {
-            return null;
-        }
         return autores;
     }
 

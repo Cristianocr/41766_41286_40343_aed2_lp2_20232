@@ -76,7 +76,7 @@ public class testClass {
 
         System.out.println("Testando métodos da classe BD:");
 
-        // Testar adicionar, remover e pesquisar publicações, autores e artigos
+        /*/ Testar adicionar, remover e pesquisar publicações, autores e artigos
         System.out.println("\nTestando adicionar, remover e pesquisar publicações, autores e artigos:");
         System.out.println("Pesquisando publicação por ID:");
         System.out.println(bd.pesquisarPublicacao(1)); // Deve imprimir as informações da publicação de teste 1
@@ -99,7 +99,7 @@ public class testClass {
         ArrayList<Artigo> artigosNaoVisualizados = bd.artigosNaoVisualizadosNoPeriodo(2020, 2023);
         for (Artigo artigo : artigosNaoVisualizados) {
             System.out.println(artigo);
-        }
+        }*/
 
         // 3. O Top-3 dos Artigos que foram mais usados num dado período
         System.out.println("\nTestando topArtigosMaisUsadosNoPeriodo:");

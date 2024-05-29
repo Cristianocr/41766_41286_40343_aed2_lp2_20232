@@ -287,7 +287,7 @@ public class BD implements ArtigoInterface, AutorInterface, PublicacaoInterface 
 
         System.out.println("Numero likes anuais dos Artigos: \n");
         for (Map.Entry<Integer, Integer> entry : likesanuais.entrySet()) {
-            System.out.println("Ano " + entry.getValue() + ": " + entry.getValue() + "likes \n");
+            System.out.println("Ano " + entry.getKey()+ ": " + entry.getValue() + " likes \n");
         }
     }
 
